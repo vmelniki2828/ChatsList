@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import chatData from './results.json';
+//import chatData from './results.json';
 import chatData_5K from './results_5K'
 
 const ChatRecord = ({ record, index }) => {
