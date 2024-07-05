@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 //import chatData from './results.json';
-import chatData_5K from './results_5K'
+// import chatData_5K from './results_5K';
+import chatData_100K from './results_100K';
 
 const ChatRecord = ({ record, index }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,31 +11,31 @@ const ChatRecord = ({ record, index }) => {
     setIsOpen(!isOpen);
   };
 
+  // Calculate totalPoints at the beginning
+  let totalPoints = 0;
+  for (let i = 0; i < record.ans.length; i++) {
+    if (!record.ans[i]) {
+      totalPoints += points[i];
+    }
+  }
+
   return (
     <div>
-      <button onClick={toggleOpen}>
+      <button onClick={toggleOpen} style={{ color: totalPoints < 100 ? 'red' : 'green' }}>
         {isOpen ? 'Скрыть' : 'Показать'} чат {index + 1}
       </button>
       {isOpen && (
         <div>
           <p>{record.chat}</p>
           <div style={{ display: 'flex' }}>
-            {record.ans.map((ans, index) => (
-              <span key={index}>
+            {record.ans.map((ans, idx) => (
+              <span key={idx}>
                 {ans ? 'true' : 'false'}
-                {index !== record.ans.length - 1 && <span>, </span>}
+                {idx !== record.ans.length - 1 && <span>, </span>}
               </span>
             ))}
           </div>
-          {(() => {
-            let totalPoints = 0;
-            for (let i = 0; i < record.ans.length; i++) {
-              if (!record.ans[i]) {
-                totalPoints += points[i];
-              }
-            }
-            return <p>{totalPoints}</p>;
-          })()}
+          <p>{totalPoints}</p>
         </div>
       )}
     </div>
@@ -44,7 +45,7 @@ const ChatRecord = ({ record, index }) => {
 export const App = () => {
   return (
     <div>
-      {chatData_5K.map((record, index) => (
+      {chatData_100K.map((record, index) => (
         <ChatRecord key={index} record={record} index={index} />
       ))}
     </div>
