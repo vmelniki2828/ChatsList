@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 //import chatData from './results.json';
 // import chatData_5K from './results_5K';
 import chatData_100K from './results_100K';
-import chatData_100K_2 from './results_100K_2'
+//import chatData_100K_2 from './results_100K_2'
 
-
-console.log(chatData_100K_2)
 const ChatRecord = ({ record, index }) => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -50,9 +48,6 @@ export const App = () => {
   return (
     <div>
       {chatData_100K.map((record, index) => (
-        <ChatRecord key={index} record={record} index={index} />
-      ))}
-      {chatData_100K_2.map((record, index) => (
         <ChatRecord key={index} record={record} index={index} />
       ))}
     </div>
