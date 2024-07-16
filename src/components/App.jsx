@@ -50,6 +50,7 @@ export const App = () => {
   const [greenCount, setGreenCount] = useState(0);
   const [orangeCount, setOrangeCount] = useState(0);
   const [redCount, setRedCount] = useState(0);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     let green = 0;
@@ -74,6 +75,26 @@ export const App = () => {
     setRedCount(red);
   }, [points]);
 
+  const getColor = (totalPoints) => {
+    if (totalPoints >= 100) return 'green';
+    if (totalPoints >= 50) return 'orange';
+    return 'red';
+  };
+
+  const filteredChats = chatData_100K.filter((record) => {
+    let totalPoints = 0;
+    for (let i = 0; i < record.ans.length; i++) {
+      if (!record.ans[i]) {
+        totalPoints += points[i];
+      }
+    }
+
+    const color = getColor(totalPoints);
+
+    if (filter === 'all') return true;
+    return color === filter;
+  });
+
   return (
     <div>
       <div style={{ marginBottom: '20px' }}>
@@ -81,7 +102,45 @@ export const App = () => {
         <p>Оранжевых чатов: {orangeCount}</p>
         <p>Красных чатов: {redCount}</p>
       </div>
-      {chatData_100K.map((record, index) => (
+      <div style={{ marginBottom: '20px' }}>
+        <label>
+          <input
+            type="radio"
+            value="all"
+            checked={filter === 'all'}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+          Все
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="green"
+            checked={filter === 'green'}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+          Зеленые
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="orange"
+            checked={filter === 'orange'}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+          Оранжевые
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="red"
+            checked={filter === 'red'}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+          Красные
+        </label>
+      </div>
+      {filteredChats.map((record, index) => (
         <ChatRecord key={index} record={record} index={index} points={points} />
       ))}
     </div>
