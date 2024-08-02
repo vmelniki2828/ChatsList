@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import chatData_100K from './results_100K';
+import chatData_100K from './results_d_562';
 
 const ChatRecord = ({ record, index, points }) => {
   const [isOpen, setIsOpen] = useState(false);
